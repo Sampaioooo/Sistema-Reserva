@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div class="ring">
+    <i style="--clr:#00ff0a;"></i>
+    <i style="--clr:#ff0057;"></i>
+    <i style="--clr:#fffd44;"></i>
+    
+    <div class="login">
+      <h2>Cadastro</h2>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash">
+            {% for msg in messages %}
+              <p>{{ msg }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('cadastro') }}">
+        <div class="inputBx">
+          <input type="text" name="nome" placeholder="Nome completo" required>
+        </div>
+        <div class="inputBx">
+          <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="inputBx">
+          <input type="password" name="senha" placeholder="Senha" required>
+        </div>
+        <div class="inputBx">
+          <select name="tipo" required>
+            <option value="" disabled selected>Tipo de usuário</option>
+            <option value="admin">Admin</option>
+            <option value="professor">Professor</option>
+            <option value="aluno">Aluno</option>
+          </select>
+        </div>
+        <div class="inputBx">
+          <input type="submit" value="Cadastrar">
+        </div>
+        <div class="links">
+          <a href="{{ url_for('login') }}">Voltar para o login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

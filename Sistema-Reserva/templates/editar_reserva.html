@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Reserva</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-box {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00fff2;
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    select,
+    input[type="date"],
+    input[type="time"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 6px;
+    }
+
+    select, input[type="date"], input[type="time"] {
+      background-color: #222;
+      color: #fff;
+    }
+
+    input[type="submit"] {
+      background-color: #00c3ff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #009fc3;
+    }
+
+    .voltar {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .voltar:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Editar Reserva</h2>
+    <form method="POST">
+      <label for="id_reserva">Selecione a Reserva:</label>
+      <select name="id_reserva" required>
+        <option value="" disabled selected>Escolha uma reserva</option>
+        {% for r in reservas %}
+          <option value="{{ r.id }}">Sala {{ r.nome_sala }} - {{ r.data_reserva }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="data">Nova Data:</label>
+      <input type="date" name="data" required>
+
+      <label for="hora_inicio">Nova Hora de Início:</label>
+      <input type="time" name="hora_inicio" required>
+
+      <label for="hora_fim">Nova Hora de Fim:</label>
+      <input type="time" name="hora_fim" required>
+
+      <input type="submit" value="Atualizar Reserva">
+    </form>
+    <a href="{{ url_for('dashboard') }}" class="voltar">← Voltar</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+    <!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login - Sistema de Reservas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <div class="ring">
+      <i style="--clr: #00ff0a"></i>
+      <i style="--clr: #ff0057"></i>
+      <i style="--clr: #fffd44"></i>
+      <div class="login">
+        <h2>Entrar</h2>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+              {% for msg in messages %}
+                <li style="color: yellow;">{{ msg }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+          <div class="inputBx">
+            <input type="text" name="email" placeholder="Email" required />
+          </div>
+          <div class="inputBx">
+            <input type="password" name="senha" placeholder="Senha" required />
+          </div>
+          <div class="inputBx">
+            <input type="submit" value="Login" />
+          </div>
+        </form>
+
+        <div class="links">
+          <a href="{{ url_for('cadastro') }}">Cadastrar-se</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Listar Reservas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-box {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00fff2;
+      width: 95%;
+      max-width: 1000px;
+      overflow-x: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      background-color: #00c3ff;
+      color: #000;
+    }
+
+    td {
+      color: #ccc;
+    }
+
+    tr:hover {
+      background-color: rgba(0, 255, 255, 0.1);
+    }
+
+    .btn-pdf, .btn-pdf-geral {
+      background-color: #00c3ff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-pdf:hover, .btn-pdf-geral:hover {
+      background-color: #009fc3;
+    }
+
+    .btn-pdf-geral {
+      margin-bottom: 15px;
+    }
+
+    .voltar {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .voltar:hover {
+      text-decoration: underline;
+    }
+
+    .flash {
+      color: yellow;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-box">
+    <h2>Reservas Registradas</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('gerar_pdf_lista') }}" method="post">
+      <button type="submit" class="btn-pdf-geral">📄 Gerar PDF Geral</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Usuário</th>
+          <th>Sala</th>
+          <th>Data</th>
+          <th>Início</th>
+          <th>Fim</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reserva in reservas %}
+        <tr>
+          <td>{{ reserva.nome_usuario }}</td>
+          <td>{{ reserva.nome_sala }}</td>
+          <td>{{ reserva.data_reserva }}</td>
+          <td>{{ reserva.hora_inicio }}</td>
+          <td>{{ reserva.hora_fim }}</td>
+          <td>{{ reserva.status }}</td>
+          <td>
+            <form action="{{ url_for('gerar_pdf', id=reserva.id) }}" method="post" style="display:inline;">
+              <button type="submit" class="btn-pdf">📄 PDF</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="{{ url_for('dashboard') }}" class="voltar">← Voltar</a>
+  </div>
+
+</body>
+</html>

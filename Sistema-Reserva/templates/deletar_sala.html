@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Deletar Sala</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-box {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #ff0055;
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    select,
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 6px;
+    }
+
+    select {
+      background-color: #222;
+      color: #fff;
+    }
+
+    input[type="submit"] {
+      background-color: #ff0055;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #cc0044;
+    }
+
+    .voltar {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .voltar:hover {
+      text-decoration: underline;
+    }
+
+    .flash {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Deletar Sala</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <label for="id_sala">Selecione a Sala:</label>
+      <select name="id_sala" required>
+        <option value="" disabled selected>Escolha uma sala</option>
+        {% for sala in salas %}
+          <option value="{{ sala.id }}">{{ sala.nome_sala }}</option>
+        {% endfor %}
+      </select>
+
+      <input type="submit" value="Deletar Sala">
+    </form>
+
+    <a href="{{ url_for('dashboard') }}" class="voltar">← Voltar</a>
+  </div>
+</body>
+</html>

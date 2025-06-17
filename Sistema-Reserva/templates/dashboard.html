@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - Sistema de Reservas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+      height: 100vh;
+      font-family: "Raleway", sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    }
+
+    .sidebar {
+      width: 300px;
+      background-color: rgb(3, 49, 98);
+      color: white;
+      padding: 2rem;
+      box-shadow: 5px 0 15px rgb(0, 208, 255);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 100vh;
+    }
+
+    .sidebar h1 {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .user-info {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-top: 2rem;
+      border-top: 1px solid #444;
+      padding-top: 1rem;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: #00ff00;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .divider {
+      width: 5px;
+      background-color: #222;
+    }
+
+    .main {
+      flex: 1;
+      height: 100vh;
+      background-image: url('{{ url_for('static', filename='img/lab3.webp') }}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: bottom right;
+      background-blend-mode: overlay;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grid {
+      display: flex;
+      perspective: 10px;
+      transform: perspective(300px) rotateX(20deg);
+      will-change: perspective;
+      perspective-origin: center center;
+      transition: all 1.3s ease-out;
+      justify-content: center;
+      transform-style: preserve-3d;
+      flex-wrap: wrap;
+    }
+
+    .grid:hover {
+      perspective: 1000px;
+      transform: perspective(10000px) rotateX(0deg);
+    }
+
+    .grid:hover .text {
+      opacity: 1;
+    }
+
+    .grid:hover > div {
+      opacity: 1;
+      transition-delay: 0s;
+    }
+
+    .card {
+      width: 200px;
+      height: 150px;
+      margin: 15px;
+      transform-style: preserve-3d;
+      border-radius: 10px;
+      border: 1px solid #fff;
+      box-shadow: 0 0 20px 5px rgba(100, 100, 255, 0.4);
+      opacity: 0;
+      transition: all 0.3s ease;
+      transition-delay: 1s;
+      position: relative;
+      background-position: center center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-color: #58d;
+      cursor: pointer;
+      background-blend-mode: color-burn;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 30px 10px rgba(100, 100, 255, 0.6);
+      background-color: #ccf;
+    }
+
+    .card.ativo {
+      opacity: 1 !important;
+    }
+
+    .text {
+      transform: translateY(30px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      bottom: 0;
+      left: 5px;
+      position: absolute;
+      will-change: transform;
+      color: #fff;
+      text-shadow: 0 0 5px rgba(100, 100, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h1>Reserva<br>Laboratório</h1>
+    <div class="user-info">
+      <span class="status-dot"></span>
+      {{ session['usuario_nome'] }} ({{ session['tipo'] }})
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="main">
+    <div class="grid">
+      {% if session['tipo'] in ['admin', 'professor'] %}
+      <div class="card listar ativo" onclick="location.href='{{ url_for('listar_reservas') }}'">
+        <div class="text">Listar Reservas</div>
+      </div>
+      {% endif %}
+
+      <div class="card minhas" onclick="location.href='{{ url_for('minhas_reservas') }}'">
+        <div class="text">Minhas Reservas</div>
+      </div>
+
+      <div class="card nova" onclick="location.href='{{ url_for('adicionar_reserva') }}'">
+        <div class="text">Nova Reserva</div>
+      </div>
+
+      {% if session['tipo'] in ['admin', 'professor', 'aluno'] %}
+      <div class="card editar" onclick="location.href='{{ url_for('editar_reserva') }}'">
+        <div class="text">Editar Reserva</div>
+      </div>
+      {% endif %}
+
+      {% if session['tipo'] == 'admin' %}
+      <div class="card deletar" onclick="location.href='{{ url_for('deletar_reserva') }}'">
+        <div class="text">Deletar Reserva</div>
+      </div>
+
+      <div class="card sala" onclick="location.href='{{ url_for('adicionar_sala') }}'">
+        <div class="text">Nova Sala</div>
+      </div>
+
+      <div class="card deletar_sala" onclick="location.href='{{ url_for('deletar_sala') }}'">
+        <div class="text">Deletar Sala</div>
+      </div>
+
+      <div class="card usuario" onclick="location.href='{{ url_for('deletar_usuario') }}'">
+        <div class="text">Deletar Usuário</div>
+      </div>
+
+      <div class="card backup" onclick="location.href='{{ url_for('backup_banco') }}'">
+        <div class="text">Backup Banco</div>
+      </div>
+      {% endif %}
+
+      <div class="card logout" onclick="location.href='{{ url_for('logout') }}'">
+        <div class="text">Logout</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
