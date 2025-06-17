@@ -4,7 +4,7 @@ O presente projeto tem como objetivo o desenvolvimento de um sistema completo pa
 
 Para garantir um resultado profissional, o sistema foi desenvolvido utilizando Flask (Python) no backend, MySQL como banco de dados relacional, e diversas ferramentas auxiliares como bcrypt, FPDF, Google Drive API e recursos de segurança contra ataques como SQL Injection e XSS.
 
-## 🔧 Modelagem e Criação do Banco de Dados (PDF 5)
+## 🔧 Modelagem e Criação do Banco de Dados 
 Diagrama Entidade-Relacionamento
 O modelo relacional foi cuidadosamente planejado com três entidades principais: usuarios, salas e reservas. A tabela reservas possui chaves estrangeiras apontando para as tabelas usuarios e salas, garantindo integridade referencial.
 
@@ -65,7 +65,7 @@ ODBC	Comunicação alternativa entre app e banco, para aprendizado de interopera
 ## Justificativa da Escolha
 Nossa escolha foi orientada pela facilidade de integração com o ecossistema Python, segurança no armazenamento e acesso, além da flexibilidade no controle de permissões. Utilizamos ODBC e conexão nativa como forma de testar desempenho e interoperabilidade entre camadas.
 
-## 🔄 Backup e Recuperação (PDF 6)
+## 🔄 Backup e Recuperação 
 Implementamos um sistema de backup automático com mysqldump, além de uma opção de upload para o Google Drive com autenticação via OAuth2. A estratégia envolve:
 
 Criação de backups periódicos com mysqldump.
@@ -76,7 +76,7 @@ Controle de versão e nomeação por timestamp.
 
 Permissões limitadas no banco para segurança do dump.
 
-## 🔗 Integração com Aplicações (PDF 8)
+## 🔗 Integração com Aplicações 
 Foram utilizadas duas abordagens de comunicação com o banco:
 
 Nativa (MySQL Connector): Alta performance, ideal para sistemas dedicados.
